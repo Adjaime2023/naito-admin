@@ -1,0 +1,14 @@
+Options +SymLinksIfOwnerMatch
+RewriteEngine On
+
+# Allow Installatron requests
+RewriteCond %{REQUEST_FILENAME} deleteme\.\w+\.php
+RewriteRule (.*) - [L] 
+
+# Redirect requests for build assets
+RewriteCond %{REQUEST_URI} ^/admin/build/(.*)$
+RewriteCond %{DOCUMENT_ROOT}/public_html/admin/public/build/$1 -f
+RewriteRule ^(.*)$ /public_html/admin/public/build/$1 [L]
+
+# Redirect all other requests to index.php
+RewriteRule ^ index.php [L]
