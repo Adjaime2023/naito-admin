@@ -42,7 +42,7 @@ const prevGroup = () => {
                     <div class="text-center mx-auto mb-[10px] w-full">
                         <!-- Título e Descrição Adicionados -->
                         <h1 class="text-3xl font-semibold text-blue-900 dark:text-blue-400 mb-4">
-                           Grupos
+                           Grupos do Produtos
                         </h1>
                     </div>
                 </div>

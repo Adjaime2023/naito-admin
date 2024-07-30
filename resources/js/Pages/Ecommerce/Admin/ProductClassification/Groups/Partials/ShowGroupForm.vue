@@ -146,10 +146,7 @@ const toggleDeleted = async (group) => {
     }
 };
 
-
-
 </script>
-
 
 <template>
     <div class="mx-0 px-0 pt-2 pb-4 bg-gray-200 dark:bg-gray-800 rounded-lg">
@@ -214,7 +211,7 @@ const toggleDeleted = async (group) => {
                         <thead>
                             <tr
                                 class="text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                <th class="px-4 py-3 text-xs">
+                                <th class="px-2 py-2 text-xs">
                                     <div class="flex items-center">
                                         <a @click="sortBy('name')" :class="{ 'text-sm': true, 'cursor-pointer': true }">
                                             Nome
@@ -225,7 +222,7 @@ const toggleDeleted = async (group) => {
                                         </a>
                                     </div>
                                 </th>
-                                <th class="px-4 py-3 text-xs">
+                                <th class="px-2 py-2 text-xs">
                                     <div class="flex items-center">
                                         <a @click="sortBy('description')"
                                             :class="{ 'text-sm': true, 'cursor-pointer': true }">
@@ -237,32 +234,29 @@ const toggleDeleted = async (group) => {
                                         </a>
                                     </div>
                                 </th>
-                                <th class="px-4 py-3 text-xs">
-                                    <div class="flex items-center">
-                                        <a @click="sortBy('group_id')"
-                                            :class="{ 'text-sm': true, 'cursor-pointer': true }">
-                                            Ações
-                                            <span v-if="sortField === 'group_id'">
-                                                <span v-if="sortDirection === 'asc'">&#x25B2;</span>
-                                                <span v-else-if="sortDirection === 'desc'">&#x25BC;</span>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </th>
+                                <th class="px-1 py-1 text-xs">Imagem</th>
+                                <th class="px-1 py-1 text-xs">Edit</th>
+                                <th class="px-1 py-1 text-xs">Desc</th>
+                                <th class="px-1 py-1 text-xs">Del</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                             <tr v-for="group in getGroupsInCurrentPage()" :key="group.id"
                                 class="text-gray-700 dark:text-gray-400">
-                                <td class="px-4 py-3 text-sm">{{ group.name }}</td>
-                                <td class="px-4 py-3 text-sm">{{ group.description }}</td>
-
-                                <td class="px-2 py-3 flex items-center justify-between">
+                                <td class="px-2 py-2 text-sm">{{ group.name }}</td>
+                                <td class="px-2 py-2 text-sm">{{ group.description }}</td>
+                                <td class="px-1 py-1 text-xs">
+                                    <img :src="group.image ? '/storage/' + group.image : '/storage/images/default.png'"
+                                        alt="Logo" class="w-10 h-10 rounded-md">
+                                    </td>
+                                    <td class="px-1 py-1 text-xs">
                                     <a :href="`/group/${group.id}/edit`"
                                         class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-blue-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Edit" title="Editar Grupo">
                                         <i class="fas fa-edit"></i>
                                     </a>
+                                </td>
+                                <td class="px-1 py-1 text-xs">
                                     <button @click="toggleDiscontinued(group)"
                                         class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-blue-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Descontinuar">
@@ -270,6 +264,8 @@ const toggleDeleted = async (group) => {
                                             title="Descontinuar Grupo"></i>
                                         <i v-else class="fa-solid fa-file-export" title="Permanecer Grupo"></i>
                                     </button>
+                                </td>
+                                <td class="px-1 py-1 text-xs">
                                     <button @click="toggleDeleted(group)"
                                         class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-blue-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Deleted">

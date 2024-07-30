@@ -4,7 +4,7 @@
             <div class="grid justify-items-stretch items-center col-span-1 sm:col-span-1 md:col-span-1">
                 <input id="image" ref="logoLightInput" type="file" class="hidden" @change="updateLogoLightPreview">
 
-                <InputLabel for="image">LogoLight</InputLabel>
+                <InputLabel for="image">Logo Light</InputLabel>
 
                 <div class="flex justify-center mt-2 relative w-full" style="padding-bottom: 56.25%; height: 0;">
                     <img :src="logoLightPreview" :alt="form.name" class="rounded absolute top-0 left-0 w-full h-full object-contain">
@@ -44,11 +44,11 @@ const { props } = usePage();
 // Inicialização do formulário
 const form = useForm({
     _method: 'PUT',
-    logo_light: props.company.logo_light, // Inicializa com a imagem existente da LogoLight
+    logo_light: null, // Inicializa como nulo para permitir seleção de nova imagem
 });
 
 // Variável reativa para a pré-visualização da imagem
-const logoLightDefault = '/storage/images/default.png';
+const logoLightDefault = '/storage/images/logo-light.svg';
 const logoLightPreview = ref(props.company.logo_light ? `/storage/${props.company.logo_light}` : logoLightDefault);
 const logoLightInput = ref(null);
 
@@ -78,15 +78,11 @@ function removeLogoLight() {
 
 // Submeter formulário
 function submitFormLogoLight() {
-    // Armazena a imagem atual selecionada para persistir após a submissão
-    const currentImage = form.logo_light;
-
     form.post(route('company.updateImageLogoLight', { id: props.company.id }), {
         onSuccess: () => {
-            // Após a submissão bem-sucedida, reatribui a imagem atual para form.logo_light
-            form.logo_light = currentImage;
-            // Lógica adicional se necessário após o sucesso da submissão
-            // form.reset(); // Remova ou ajuste conforme necessário
+            if (form.logo_light) {
+                logoLightPreview.value = URL.createObjectURL(form.logo_light);
+            }
         },
     });
 }

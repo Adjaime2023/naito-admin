@@ -25,7 +25,7 @@ use App\Http\Controllers\Partners\CreatePartnerController;
 use App\Http\Controllers\Partners\UpdatePartnerController;
 use App\Http\Controllers\Partners\ShowPartnerController;
 
-use App\http\Controllers\Company\UpdateCompanyController;
+
 
 use App\Http\Controllers\Products\ProductClassification\UpdateCategoryController;
 use App\Http\Controllers\Products\ProductClassification\UpdateSubcategoryController;
@@ -72,31 +72,32 @@ use App\Http\Controllers\Movements\CreateNfeEntradaController;
 use App\Http\Controllers\Movements\ShowNfeEntradaController;
 use App\Http\Controllers\Movements\UpdateNfeEntradaController;
 
+use App\Http\Controllers\Company\UpdateCompanyController;
 
 
 
-# Route::get('/navbar', [EcommerceController::class, 'navbar'])->name('navbar');
-# Route::post('/api/contact', [ContactController::class, 'submitContactForm']);
-# Route::get('/map', [EcommerceController::class, 'showMap'])->name('map.show');
-# Route::get('/', [EcommerceController::class, 'index'])->name('home');
-# Route::get('/products', [EcommerceController::class, 'products'])->name('products');
-# Route::get('/balancas', [EcommerceController::class, 'balancas'])->name('balancas');
-# Route::get('/impressoras', [EcommerceController::class, 'impressoras'])->name('impressoras');
-# Route::get('/servicos', [EcommerceController::class, 'servicos'])->name('servicos');
-# Route::get('/acessoriosInsumos', [EcommerceController::class, 'acessoriosInsumos'])->name('acessoriosInsumos');
+ Route::get('/navbar', [EcommerceController::class, 'navbar'])->name('navbar');
+ Route::post('/api/contact', [ContactController::class, 'submitContactForm']);
+ Route::get('/map', [EcommerceController::class, 'showMap'])->name('map.show');
+ Route::get('/', [EcommerceController::class, 'index'])->name('home');
+ Route::get('/products', [EcommerceController::class, 'products'])->name('products');
+ Route::get('/balancas', [EcommerceController::class, 'balancas'])->name('balancas');
+ Route::get('/impressoras', [EcommerceController::class, 'impressoras'])->name('impressoras');
+ Route::get('/servicos', [EcommerceController::class, 'servicos'])->name('servicos');
+ Route::get('/acessoriosInsumos', [EcommerceController::class, 'acessoriosInsumos'])->name('acessoriosInsumos');
 
-# Route::prefix('website')->group(function () {
-#     Route::get('/subcategory/{category_id}', [EcommerceController::class, 'showSubcategories'])->name('subcategorias');
-# });
+ Route::prefix('website')->group(function () {
+     Route::get('/subcategory/{category_id}', [EcommerceController::class, 'showSubcategories'])->name('subcategorias');
+ });
 
-# Route::get('/website/groups/{subcategory_id}', [EcommerceController::class, 'showGroups'])->name('grupos');
-# Route::get('/website/products/{group_id}', [EcommerceController::class, 'showGroupProducts'])->name('websiteProducts');
-
-
+ Route::get('/website/groups/{subcategory_id}', [EcommerceController::class, 'showGroups'])->name('grupos');
+ Route::get('/website/products/{group_id}', [EcommerceController::class, 'showGroupProducts'])->name('websiteProducts');
 
 
 
-Route::get('/', function () {
+
+
+Route::get('/admin', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -107,19 +108,13 @@ Route::get('/', function () {
 
 
 
-
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        $company = Company::findOrFail(1);     
-
-        return Inertia::render('Ecommerce/Dashboard/Show', [
-            'company' => $company,
-        ]);
+        return Inertia::render('Ecommerce/Dashboard/Show');
     })->name('dashboard');
 
     Route::get('/nfe-entrada', [CreateNfeEntradaController::class, 'create'])->name('nfe-entrada.create');
@@ -128,7 +123,6 @@ Route::middleware([
     Route::get('/nfe-entradas', [ShowNfeEntradaController::class, 'show'])->name('nfe-entradas.show');
     Route::get('/nfe-entrada/{id}/edit', [UpdateNfeEntradaController::class, 'edit'])->name('nfe-entrada.edit');
     Route::put('/nfe-entrada/{id}', [UpdateNfeEntradaController::class, 'update'])->name('nfe-entrada.update');
-
 
 
     Route::get('/products/launch', [ProductLaunchController::class, 'index'])->name('launch.show');
@@ -156,7 +150,7 @@ Route::middleware([
 
 
     Route::get('/company/{id}/edit', [UpdateCompanyController::class, 'edit'])->name('company.edit');
-    Route::put('/company/{id}', [UpdateCompanyController::class, 'update'])->name('company.update');
+    Route::put('/company/{id}/update', [UpdateCompanyController::class, 'update'])->name('company.update');
     Route::put('/company/{id}/favicon', [UpdateCompanyController::class, 'updateImageFavicon'])->name('company.updateImageFavicon');
     Route::put('/company/{id}/logo_light', [UpdateCompanyController::class, 'updateImageLogoLight'])->name('company.updateImageLogoLight');
     Route::put('/company/{id}/logo_dark', [UpdateCompanyController::class, 'updateImageLogoDark'])->name('company.updateImageLogoDark');

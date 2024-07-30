@@ -30,7 +30,6 @@
         </form>
     </div>
 </template>
-
 <script setup>
 import { ref } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
@@ -44,7 +43,7 @@ const { props } = usePage();
 // Inicialização do formulário
 const form = useForm({
     _method: 'PUT',
-    favicon: props.company.favicon, // Inicializa com a imagem existente da Favicon
+    favicon: null, // Inicializa como nulo para permitir seleção de nova imagem
 });
 
 // Variável reativa para a pré-visualização da imagem
@@ -78,15 +77,11 @@ function removeFavicon() {
 
 // Submeter formulário
 function submitFormFavicon() {
-    // Armazena a imagem atual selecionada para persistir após a submissão
-    const currentImage = form.favicon;
-
     form.post(route('company.updateImageFavicon', { id: props.company.id }), {
         onSuccess: () => {
-            // Após a submissão bem-sucedida, reatribui a imagem atual para form.favicon
-            form.favicon = currentImage;
-            // Lógica adicional se necessário após o sucesso da submissão
-            // form.reset(); // Remova ou ajuste conforme necessário
+            if (form.favicon) {
+                faviconPreview.value = URL.createObjectURL(form.favicon);
+            }
         },
     });
 }

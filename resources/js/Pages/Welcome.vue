@@ -1,6 +1,7 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import { useDark, useToggle } from "@vueuse/core";
+import ApplicationMark from '@/Components/ApplicationMark.vue';
 
 const isDarkMode = useDark();
 const toggleDark = useToggle(isDarkMode);
@@ -22,7 +23,6 @@ defineProps({
     },
 });
 
-
 </script>
 
 <template>
@@ -40,9 +40,7 @@ defineProps({
                 <header class="flex items-center justify-between py-4">
                     <!-- Logo Section -->
                     <div class="flex items-center">
-                        <img src="/storage/images/naito-dark.svg" alt="Logo1" class="dark:hidden h-16" />
-                        <img src="/storage/images/naito-light.svg" alt="Logo1"
-                            class="hidden dark:block text-white h-16" />
+                       <ApplicationMark />
                     </div>
 
                     <!-- Navigation Section -->

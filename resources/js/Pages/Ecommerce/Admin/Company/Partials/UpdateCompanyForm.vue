@@ -53,6 +53,18 @@
                 <div class="px-4 py-4 pb-6 bg-gray-300 dark:bg-gray-900/80 rounded-b-lg rounded-r-lg">
                     <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
                         <div class="col-span-1 sm:col-span-1 md:col-span-1">
+                            <InputLabel for="support_message">Mensagem de suporte</InputLabel>
+                            <TextInput id="support_message" name="support_message" v-model="form.support_message"
+                                class="block mt-1 w-full" type="text" />
+                            <InputError class="mt-2" :message="form.errors.support_message" />
+                        </div>
+                        <div class="col-span-1 sm:col-span-1 md:col-span-1">
+                            <InputLabel for="description">Descrição</InputLabel>
+                            <TextInput id="description" name="description" v-model="form.description"
+                                class="block mt-1 w-full" type="text" />
+                            <InputError class="mt-2" :message="form.errors.description" />
+                        </div>
+                        <div class="col-span-1 sm:col-span-1 md:col-span-1">
                             <InputLabel for="phone">Telefone</InputLabel>
                             <TextInput id="phone" name="phone" v-mask="['(##) ####-####', '(##) #####-####']"
                                 v-model="form.phone" class="block mt-1 w-full" type="text" />
@@ -335,17 +347,14 @@ onMounted(() => {
     }
 });
 
-const user = computed(() => props.auth.user);
-const actionUser = computed(() => {
-    const userName = user.value ? user.value.name : 'Desconhecido';
-    return `Atualizado por: ${userName} em ${new Date().toLocaleString()}`;
-});
 
 const form = useForm({
     _method: 'PUT',
     id: props.company?.id || '',
     name: props.company?.name || '',
     contact: props.company?.contact || '',
+    support_message: props.company?.support_message || '',
+    description: props.company?.description || '',
     email: props.company?.email || '',
     whatsapp: props.company?.whatsapp || '',
     phone: props.company?.phone || '',
@@ -353,6 +362,7 @@ const form = useForm({
     facebook: props.company?.facebook || '',
     x: props.company?.x || '',
     tiktok: props.company?.tiktok || '',
+    instagram: props.company?.instagram || '',
     cep: props.company?.cep || '',
     city: props.company?.city || '',
     uf: props.company?.uf || '',
@@ -389,7 +399,6 @@ const updateCompany = () => {
         },
     });
 };
-
 
 
 const buscarEnderecoPorCEP = async () => {

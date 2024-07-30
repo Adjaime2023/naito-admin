@@ -4,7 +4,7 @@
             <div class="grid justify-items-stretch items-center col-span-1 sm:col-span-1 md:col-span-1">
                 <input id="image" ref="logoDarkInput" type="file" class="hidden" @change="updateLogoDarkPreview">
 
-                <InputLabel for="image">LogoDark</InputLabel>
+                <InputLabel for="image">Logo Dark</InputLabel>
 
                 <div class="flex justify-center mt-2 relative w-full" style="padding-bottom: 56.25%; height: 0;">
                     <img :src="logoDarkPreview" :alt="form.name" class="rounded absolute top-0 left-0 w-full h-full object-contain">
@@ -44,11 +44,11 @@ const { props } = usePage();
 // Inicialização do formulário
 const form = useForm({
     _method: 'PUT',
-    logo_dark: props.company.logo_dark, // Inicializa com a imagem existente da LogoDark
+    logo_dark: null, // Inicializa como nulo para permitir seleção de nova imagem
 });
 
 // Variável reativa para a pré-visualização da imagem
-const logoDarkDefault = '/storage/images/default.png';
+const logoDarkDefault = '/storage/images/logo-black.svg';
 const logoDarkPreview = ref(props.company.logo_dark ? `/storage/${props.company.logo_dark}` : logoDarkDefault);
 const logoDarkInput = ref(null);
 
@@ -78,15 +78,11 @@ function removeLogoDark() {
 
 // Submeter formulário
 function submitFormLogoDark() {
-    // Armazena a imagem atual selecionada para persistir após a submissão
-    const currentImage = form.logo_dark;
-
     form.post(route('company.updateImageLogoDark', { id: props.company.id }), {
         onSuccess: () => {
-            // Após a submissão bem-sucedida, reatribui a imagem atual para form.logo_dark
-            form.logo_dark = currentImage;
-            // Lógica adicional se necessário após o sucesso da submissão
-            // form.reset(); // Remova ou ajuste conforme necessário
+            if (form.logo_dark) {
+                logoDarkPreview.value = URL.createObjectURL(form.logo_dark);
+            }
         },
     });
 }
